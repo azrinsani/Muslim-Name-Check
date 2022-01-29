@@ -13,6 +13,6 @@ This build angular and pushes the project to the 'gh-pages' branch
 
 Under settings => Pages => Source => Branch is set as 'gh-pages' and '/(root)'
 
-The project can now be accessed under https://<YourGitHubUserName>.github.io/muslim-name-check/
+The project can now be accessed under https://YourGitHubUserName.github.io/muslim-name-check/
     
     Example => https://azrinsani.github.io/muslim-name-check/
