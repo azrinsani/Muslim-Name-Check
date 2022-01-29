@@ -2,9 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
 
-## Pushing to Githb Pages
+## Pushing to Git Hub Pages
 
-This project is hosted in Github Pages. To push to github pages use the following command:
+This project is hosted in GitHub Pages. To push to github pages use the following command:
 
     $ ng add angular-cli-ghpages
     $ ng deploy --base-href=/muslim-name-check/
