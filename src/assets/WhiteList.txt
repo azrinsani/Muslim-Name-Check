@@ -94766,6 +94766,7 @@ nazaovwah
 nazaqad
 nazaqat
 nazar
+nazari
 nazat
 nazataon
 nazataun
@@ -94796,7 +94797,9 @@ nazbiebe
 nazbiebi
 nazbiebie
 nazbieby
+nazdan
 nazdana
+nazdani
 naze
 nazeb
 nazeba
@@ -94832,6 +94835,7 @@ nazemah
 nazeq
 nazeque
 nazer
+nazeri
 nazeya
 nazeyah
 nazhad
@@ -143802,6 +143806,7 @@ somirah
 somitro
 somiya
 somiyah
+somji
 soml
 somleena
 somleenah
