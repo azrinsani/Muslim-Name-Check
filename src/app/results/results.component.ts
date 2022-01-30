@@ -18,11 +18,14 @@ export class ResultsComponent {
 
   async initializeNames() {
     console.log('Initializing Names');
-    this.whiteList = ( await lastValueFrom(this.httpClient.get('assets/WhiteList.txt', {responseType: 'text'}))).split('\r\n');
+    var whiteListRaw = await lastValueFrom(this.httpClient.get('./assets/WhiteList.txt', {responseType: 'text'}));
+    this.whiteList = whiteListRaw.split(/\r?\n/);
     console.log('Loaded ' + this.whiteList.length + ' white list names');
-    this.blackList = ( await lastValueFrom(this.httpClient.get('assets/BlackList.txt', {responseType: 'text'}))).split('\r\n');
+    var blackListRaw = await lastValueFrom(this.httpClient.get('./assets/BlackList.txt', {responseType: 'text'}));
+    this.blackList = blackListRaw.split(/\r?\n/);
     console.log('Loaded ' + this.blackList.length + ' white list names');
-    var filterList = ( await lastValueFrom(this.httpClient.get('assets/FilterList.txt', {responseType: 'text'}))).split('\r\n');
+    var filterListRaw = await lastValueFrom(this.httpClient.get('./assets/FilterList.txt', {responseType: 'text'}));
+    var filterList = filterListRaw.split(/\r?\n/);
     console.log('Loaded ' + filterList.length + ' shia list names');
     filterList.forEach(e=> {
       var items = e.split('\t');
