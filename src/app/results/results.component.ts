@@ -19,8 +19,11 @@ export class ResultsComponent {
   async initializeNames() {
     console.log('Initializing Names');
     this.whiteList = ( await lastValueFrom(this.httpClient.get('assets/WhiteList.txt', {responseType: 'text'}))).split('\r\n');
+    console.log('Loaded ' + this.whiteList.length + ' white list names');
     this.blackList = ( await lastValueFrom(this.httpClient.get('assets/BlackList.txt', {responseType: 'text'}))).split('\r\n');
+    console.log('Loaded ' + this.blackList.length + ' white list names');
     var filterList = ( await lastValueFrom(this.httpClient.get('assets/FilterList.txt', {responseType: 'text'}))).split('\r\n');
+    console.log('Loaded ' + filterList.length + ' shia list names');
     filterList.forEach(e=> {
       var items = e.split('\t');
       if (items[1]=='1') this.shiaRegex.push(items[0]); else this.shiaList.push(items[0]);
