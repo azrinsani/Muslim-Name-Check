@@ -12,81 +12,138 @@ export class ResultsComponent {
 
   whiteList: string[] = [];
   blackList: string[] = [];
-  filterList: string[] = [];
+  shiaList: string[] = [];
+  shiaRegex: string[] = [];
   results: NameChecked[] = [];
 
   async initializeNames() {
     console.log('Initializing Names');
     this.whiteList = ( await lastValueFrom(this.httpClient.get('assets/WhiteList.txt', {responseType: 'text'}))).split('\r\n');
     this.blackList = ( await lastValueFrom(this.httpClient.get('assets/BlackList.txt', {responseType: 'text'}))).split('\r\n');
-    console.log(this.blackList);
-    this.filterList = ( await lastValueFrom(this.httpClient.get('assets/FilterList.txt', {responseType: 'text'}))).split('\r\n');
-
+    var filterList = ( await lastValueFrom(this.httpClient.get('assets/FilterList.txt', {responseType: 'text'}))).split('\r\n');
+    filterList.forEach(e=> {
+      var items = e.split('\t');
+      if (items[1]=='1') this.shiaRegex.push(items[0]); else this.shiaList.push(items[0]);
+    });
   }
 
   checkName(nameToCheck:string) {
     this.results = [];
-    nameToCheck.replace("-"," ").replace(","," ").replace(";"," ").replace(":"," ").split(" ").forEach(name=> {
+    nameToCheck.replace("-"," ").replace(","," ").replace(";"," ").replace(":"," ").split(" ").forEach(nameRaw=> {
+      var name = this.preProcessName(nameRaw);
       if (name.length==1 || name === null || name.match(/^ *$/) !== null) return;
-      var res = this.checkMuslimOrNot(name)      
-      this.results.push(new NameChecked(name,res.isMuslim,res.isSunni));
+      var isMuslim = this.checkMuslimOrNot(name);      
+      var isShia = this.checkShiaOrNot(name); 
+      this.results.push(new NameChecked(name,isMuslim || isShia,!isShia));
     });
   }
 
-  checkMuslimOrNot(nameToCheck:string):boolean  {
-    var processedName = this.preProcessName(nameToCheck);
-    console.log("Checking name : " + processedName);
+  
+  checkMuslimOrNot(nameToCheckIn:string):boolean {
+
+    console.log("Checking name : " + nameToCheckIn);
+    var nameToCheck = nameToCheckIn;
 
     //Check black list
-    if (this.blackList.find(e=>e == processedName)) {
-      console.log(processedName + " is in Black List file. Verdict => Not a Muslim")
+    if (this.blackList.find(e=>e == nameToCheck)) {
+      console.log(nameToCheck + " is in black list file. Verdict => Not a Muslim")
       return false;
     }
 
     //Do quick checks
-    if (processedName.match(/^((acdi)|(abd))/)) return true;
-    if (processedName.match(/^d?zul/)) return true;
-    if (processedName.match(/[aeiou]ll[oa]hi?$/)) return true;
-    if (processedName.match(/[ou]lla$/)) return true;
+    console.log(nameToCheck.match(/^((acdi)|(abd))/));
+    if (nameToCheck.match(/^((acdi)|(abd))/)) {
+      console.log(nameToCheck + " matches 'Abd' variations. Verdict => Muslim")
+      return true;
+    }
+    if (nameToCheck.match(/^d?zul/)) { 
+      console.log(nameToCheck + " matches 'Zul' variations. Verdict => Muslim")
+      return true;
+    }
+    if (nameToCheck.match(/[aeiou]ll[oa]hi?$/)) { 
+      console.log(nameToCheck + " matches '-allah' variations. Verdict => Muslim")
+      return true;
+    }
+    if (nameToCheck.match(/[ou]lla$/)) {
+      console.log(nameToCheck + " matches 'ulla' variations. Verdict => Muslim")
+      return true;
+    }
 
     //Whitelist Check
-    if (!this.whiteList.find(e=>e == processedName)) return true;
+    if (this.whiteList.find(e=>e == nameToCheck) != null) {
+      console.log(nameToCheck + " is in White List. Verdict => Muslim")
+      return true;
+    }
 
     //Any double+ letters, make it single and check again
-    processedName = processedName.replace(/i{2,}/g, "i");
-    processedName = processedName.replace(/u{2,}/g, "u");
-    processedName = processedName.replace(/b{2,}/g, "b");
-    processedName = processedName.replace(/c{2,}/g, "c");
-    processedName = processedName.replace(/d{2,}/g, "d");
-    processedName = processedName.replace(/f{2,}/g, "f");
-    processedName = processedName.replace(/g{2,}/g, "g");
-    processedName = processedName.replace(/h{2,}/g, "h");
-    processedName = processedName.replace(/j{2,}/g, "j");
-    processedName = processedName.replace(/k{2,}/g, "k");
-    processedName = processedName.replace(/l{2,}/g, "l");
-    processedName = processedName.replace(/q{2,}/g, "q");
-    processedName = processedName.replace(/r{2,}/g, "r");
-    processedName = processedName.replace(/s{2,}/g, "s");
-    processedName = processedName.replace(/t{2,}/g, "t");
-    processedName = processedName.replace(/v{2,}/g, "v");
-    processedName = processedName.replace(/w{2,}/g, "w");
-    processedName = processedName.replace(/x{2,}/g, "x");
-    processedName = processedName.replace(/y{2,}/g, "y");
-    processedName = processedName.replace(/z{2,}/g, "z");
-    if (!this.whiteList.find(e=>e == processedName)) return true;
+    var nameToCheckBeforeTransformation = nameToCheck;
+    nameToCheck = nameToCheck.replace(/i{2,}/g, "i");
+    nameToCheck = nameToCheck.replace(/u{2,}/g, "u");
+    nameToCheck = nameToCheck.replace(/b{2,}/g, "b");
+    nameToCheck = nameToCheck.replace(/c{2,}/g, "c");
+    nameToCheck = nameToCheck.replace(/d{2,}/g, "d");
+    nameToCheck = nameToCheck.replace(/f{2,}/g, "f");
+    nameToCheck = nameToCheck.replace(/g{2,}/g, "g");
+    nameToCheck = nameToCheck.replace(/h{2,}/g, "h");
+    nameToCheck = nameToCheck.replace(/j{2,}/g, "j");
+    nameToCheck = nameToCheck.replace(/k{2,}/g, "k");
+    nameToCheck = nameToCheck.replace(/l{2,}/g, "l");
+    nameToCheck = nameToCheck.replace(/q{2,}/g, "q");
+    nameToCheck = nameToCheck.replace(/r{2,}/g, "r");
+    nameToCheck = nameToCheck.replace(/s{2,}/g, "s");
+    nameToCheck = nameToCheck.replace(/t{2,}/g, "t");
+    nameToCheck = nameToCheck.replace(/v{2,}/g, "v");
+    nameToCheck = nameToCheck.replace(/w{2,}/g, "w");
+    nameToCheck = nameToCheck.replace(/x{2,}/g, "x");
+    nameToCheck = nameToCheck.replace(/y{2,}/g, "y");
+    nameToCheck = nameToCheck.replace(/z{2,}/g, "z");
+
+    if (nameToCheck !== nameToCheckBeforeTransformation && this.whiteList.find(e=>e == nameToCheck) != null) {
+      console.log(nameToCheckIn + " is in White List after stripping double characters transforming to '" + nameToCheck + "'. Verdict => Muslim")
+      return true;
+    }
 
     //Strip out some muslim related name prefixes and try again
-    processedName = processedName.replace(/^[ae]l(?![aeiou])/g, ""); //strip out arabic 'al','el'
-    processedName = processedName.replace(/^[ae]b(([ou])|(uu)|(ou)|(oo))(?![aeiou])/g, "i"); //strip out 'abu' and all related
-    processedName = processedName.replace(/^ei/g, "i"); //strip out '^ei' into 'i'
-    processedName = processedName.replace(/[uo]((din)|(ddin))$/g, "i"); //strip out ends with 'uddin','oddin'
-    processedName = processedName.replace(/((ovic)|(ovich)|(ova)|(wati)|(waty)|(watie)|(zada))$/g, "i"); //strip out ends with 'ovic','ovich','ova','wati'
-    processedName = processedName.replace(/dz/g, "z"); //change dz to simply z
+    nameToCheckBeforeTransformation = nameToCheck;
+    nameToCheck = nameToCheck.replace(/^[ae]l(?![aeiou])/g, ""); //strip out arabic 'al','el'
+    nameToCheck = nameToCheck.replace(/^[ae]b(([ou])|(uu)|(ou)|(oo))(?![aeiou])/g, "i"); //strip out 'abu' and all related
+    nameToCheck = nameToCheck.replace(/^ei/g, "i"); //strip out '^ei' into 'i'
+    nameToCheck = nameToCheck.replace(/[uo]((din)|(ddin))$/g, "i"); //strip out ends with 'uddin','oddin'
+    nameToCheck = nameToCheck.replace(/((ovic)|(ovich)|(ova)|(wati)|(waty)|(watie)|(zada))$/g, "i"); //strip out ends with 'ovic','ovich','ova','wati'
+    nameToCheck = nameToCheck.replace(/dz/g, "z"); //change dz to simply z
+    if (nameToCheck !== nameToCheckBeforeTransformation && this.whiteList.find(e=>e == nameToCheck) != null) { 
+      console.log(nameToCheckIn + " is in white list after transforming to '" + nameToCheck + "'. Verdict => Muslim")
+      return true;
+    }
 
-    //Test Somali name rule
+    //Somali name mapping
+    nameToCheckBeforeTransformation = nameToCheck;
+    nameToCheck = nameToCheck.replace(/x(?=[aeiou])/g, "h"); // X is H in Somali
+    nameToCheck = nameToCheck.replace(/(?<=[aeiou])x/g, "h"); // X is H in Somali
+    nameToCheck = nameToCheck.replace(/aa/g, "a");
+    nameToCheck = nameToCheck.replace(/uu/g, "u");
+    if (nameToCheck !== nameToCheckBeforeTransformation && this.whiteList.find(e=>e == nameToCheck) != null) {
+      console.log(nameToCheckIn + " is in white list after applying Somali name transformation transforming into '" + nameToCheck + "'. Verdict => Muslim")
+      return true;
+    }
     
+    //Egyption name mapping
+    nameToCheckBeforeTransformation = nameToCheck;
+    nameToCheck = nameToCheck.replace(/j(?=[aeiou])/g, "g"); //Egyption J to G
+    if (nameToCheck !== nameToCheckBeforeTransformation && this.whiteList.find(e=>e == nameToCheck) != null) {
+      console.log(nameToCheckIn + " is in white list after applying Egyption (j=>g) rule transforming into '" + nameToCheck + "'. Verdict => Muslim")
+      return true;
+    }
+
+
+    console.log(nameToCheckIn + " is NOT in white list after applying all rules (Last transformed into '" + nameToCheck + "'). Verdict => Not a Muslim Name")
+    return false;
   }
 
+  testRun():boolean {
+    console.log('I am Run');
+    return true;
+  }
   preProcessName(nameToProcess:string):string {
     
     //Remove diacritics
@@ -102,7 +159,31 @@ export class ResultsComponent {
     return processedName;
   }
 
+  
+  checkShiaOrNot(nameToCheck:string): boolean {
+    console.log("Checking if '" + nameToCheck + "' is a Shia name");
+    for (let e of this.shiaRegex) {
+      
+      console.log(nameToCheck.match(new RegExp(e, "g")));
+      if (nameToCheck.match(new RegExp(e, "g"))) {
+        console.log("Name matches Regex Test '" + e +"'.  Verdict => Shia name");
+        return true;
+      }
+    }
+    for (let e of this.shiaList) {
+      if (nameToCheck ===e) {
+        console.log("Name matches '" + e +"'. Verdict => Shia name");
+        return true;
+      }
+    }
+
+    console.log("Name '" + nameToCheck +"' does not match any Shia name/rules. Verdict => Not a Shia name");
+    return false;
+  }
+
 }
+
+
 
 class NameChecked {
   constructor(name:string, isMuslim:boolean, isSunni:boolean) {
@@ -113,4 +194,9 @@ class NameChecked {
   name: string = '';
   isMuslim: boolean = false;
   isSunni: boolean = false;
+}
+
+
+function escapeRegex(value:string) {
+  return value.replace( /[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&" );
 }
