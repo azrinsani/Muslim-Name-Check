@@ -15,3 +15,5 @@ Under settings => Pages => Source => Branch is set as 'gh-pages' and '/(root)'
 
 The project can now be accessed under https://azrinsani.github.io/muslim-name-check/
     
+
+

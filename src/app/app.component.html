@@ -1,11 +1,11 @@
 <div class="container vh-100">
   <div class="d-flex flex-column align-items-center justify-content-center h-100 pb-5">
-    <div class="display-5">Muslim name checker</div>
+    <div class="display-5 text-center">Muslim name checker</div>
     <div style="display: grid; justify-content:stretch; max-width: 600px;" class="w-100">
         <div class="input-group my-1 w-100" style="grid-area: 1/1/1/1;" [ngClass]="{'grey-out': showLoading}" >
-          <input type="text" class="form-control" (input)="emitNamesToCheck($event.target)" placeholder="Names to check" style="height: 3rem;"
-            aria-label="Names to check" [disabled]="searchDisable">
-          <button class="btn btn-primary" (click)="checkClick()" type="button" [disabled]="searchDisable">Check!</button>
+          <input type="text" class="form-control" (input)="emitNameToCheck($event.target)" placeholder="Name to check" style="height: 3rem; border-radius: 2rem 0 0 2rem;"
+            aria-label="Names to check" [disabled]="searchDisable" (keydown.enter)="checkClick()">
+          <button class="btn btn-primary" (click)="checkClick()" type="button" style="border-radius: 0 2rem 2rem 0; width: 100px;" [disabled]="searchDisable || checkButtonDisable">Check!</button>
         </div>
         <div *ngIf="showLoading" class="d-flex flex-row align-items-center mb-3 justify-content-center h-100" style="grid-area: 1/1/1/1;z-index: 100;">
           <div class="spinner-border text-primary mx-1" role="status">
@@ -13,6 +13,6 @@
           <div class="text-primary fw-normal fs-4">Loading</div>
         </div>
     </div>
-    <div class="text-black-50">Verify if a name is a Muslim name or not</div>
+    <ng-container #resultsContainer></ng-container>
   </div>
 </div>
