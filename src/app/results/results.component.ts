@@ -51,7 +51,10 @@ export class ResultsComponent {
     }
 
     //Do quick checks
-    console.log(nameToCheck.match(/^((acdi)|(abd))/));
+    if (nameToCheck.match(/^m[aeou]hh?[aeou]?mm?[aeou][dt]/)) {
+      console.log(nameToCheck + " matches 'Muhammad' variations. Verdict => Muslim")
+      return true;
+    }
     if (nameToCheck.match(/^((acdi)|(abd))/)) {
       console.log(nameToCheck + " matches 'Abd' variations. Verdict => Muslim")
       return true;
@@ -92,6 +95,8 @@ export class ResultsComponent {
     nameToCheck = nameToCheck.replace(/r{2,}/g, "r");
     nameToCheck = nameToCheck.replace(/s{2,}/g, "s");
     nameToCheck = nameToCheck.replace(/t{2,}/g, "t");
+    nameToCheck = nameToCheck.replace(/m{2,}/g, "m");
+    nameToCheck = nameToCheck.replace(/n{2,}/g, "n");
     nameToCheck = nameToCheck.replace(/v{2,}/g, "v");
     nameToCheck = nameToCheck.replace(/w{2,}/g, "w");
     nameToCheck = nameToCheck.replace(/x{2,}/g, "x");
@@ -99,7 +104,7 @@ export class ResultsComponent {
     nameToCheck = nameToCheck.replace(/z{2,}/g, "z");
 
     if (nameToCheck !== nameToCheckBeforeTransformation && this.whiteList.find(e=>e == nameToCheck) != null) {
-      console.log(nameToCheckIn + " is in White List after stripping double characters transforming to '" + nameToCheck + "'. Verdict => Muslim")
+      console.log(nameToCheckIn + " is in white list after stripping double characters transforming to '" + nameToCheck + "'. Verdict => Muslim")
       return true;
     }
 
@@ -140,10 +145,6 @@ export class ResultsComponent {
     return false;
   }
 
-  testRun():boolean {
-    console.log('I am Run');
-    return true;
-  }
   preProcessName(nameToProcess:string):string {
     
     //Remove diacritics
@@ -163,8 +164,6 @@ export class ResultsComponent {
   checkShiaOrNot(nameToCheck:string): boolean {
     console.log("Checking if '" + nameToCheck + "' is a Shia name");
     for (let e of this.shiaRegex) {
-      
-      console.log(nameToCheck.match(new RegExp(e, "g")));
       if (nameToCheck.match(new RegExp(e, "g"))) {
         console.log("Name matches Regex Test '" + e +"'.  Verdict => Shia name");
         return true;
