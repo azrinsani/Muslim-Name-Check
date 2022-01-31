@@ -7,7 +7,6 @@ import { ResultsComponent } from './results/results.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'MuslimNameCheck';
   nameToCheck = '';
   searchDisable:boolean = false;
   checkButtonDisable:boolean = true;
