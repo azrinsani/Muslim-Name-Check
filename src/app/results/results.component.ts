@@ -44,7 +44,6 @@ export class ResultsComponent {
     });
   }
 
-  
   checkMuslimOrNot(nameToCheckIn:string):boolean {
 
     console.log("Checking name : " + nameToCheckIn);
