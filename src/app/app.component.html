@@ -1,6 +1,6 @@
 <div class="container vh-100">
-  <div class="d-flex flex-column align-items-center justify-content-center h-100 pb-5">
-    <div class="display-5 text-center">Muslim name checker</div>
+  <div class="d-flex flex-column align-items-center justify-content-center pb-5" style="margin-top: 15vh; margin-bottom: 25vh;">
+    <h1 class="display-5 text-center" style="font-weight: 400; cursor: pointer" (click)="resetApp()">The Muslim Name Checker</h1>
     <div style="display: grid; justify-content:stretch; max-width: 600px;" class="w-100">
         <div class="input-group my-1 w-100" style="grid-area: 1/1/1/1;" [ngClass]="{'grey-out': showLoading}" >
           <input type="text" class="form-control" [(ngModel)]="nameToCheck" (ngModelChange)="nameToCheckChanged()" placeholder="Name to check" style="height: 3rem; border-radius: 2rem 0 0 2rem; background-color: rgb(255, 255, 239);"
@@ -13,6 +13,23 @@
           <div class="text-primary fw-normal fs-4">Loading</div>
         </div>
     </div>
-    <ng-container #resultsContainer></ng-container>
+    <div class="text-secondary" *ngIf="!resultsObtained"><i>Check if a name is Muslim or not!</i></div>
+    <ng-container #resultsContainer></ng-container>       
+  </div> 
+  <div class="text-center my-5 border-top bg-light px-3">
+    <h5 class="fw-bold text-center fst-italic">What's this?</h5>
+    <div>Use this simple (yet complex) tool to quickly check if a name is (most likely) Muslim or not. I did this to get myself up to speed with Angular and Typescript. Here's the <a href="https://github.com/azrinsani/muslim-name-check">sourcecode (GPL)</a>. 
+      It's a good sample of a standard Angular Web App. It has routes, unit tests, lazyloads, etc, all done the Angular way!</div>
+    <h5 class="mt-3 fw-bold text-center fst-italic">What's this for?</h5>
+    <div>Impress your Muslim customers, friends or coworkers, by dropping a <i>'Salam', 'Salamualaykum' or 'Ramadhan Mubarak'</i> in your communications! Off course, use this tool to check first if they are one!</div>
+    <h5 class="mt-3 fw-bold text-center fst-italic">What's the catch?</h5>
+    <div>Nothing, this is Free! Just buy me a coffee if you like to support this project</div>
+    <div class="mt-2"><a href="https://www.buymeacoffee.com/azrinsani" target="blank"><img src="./assets/buymeacoffee.svg"></a></div>
+    <h5 class="mt-3 fw-bold text-center fst-italic">Is this accurate?</h5>
+    <div>So far it's been pretty good! I am from Australia where the Muslim community is diverse => Arabs, Africans, Balkans, Asians etc; Having said that, it wasn't easy setting this up. 
+      Had to take care of special cultural names and phonetics. I tried using Machine Learning (AI), but couldn't get it to work. Would be great if you can help me with that.</div>
+    <h5 class="mt-3 fw-bold text-center fst-italic">Contact</h5>
+    <div>You can contact me at <a href="mailto:azrinsani@gmail.com">azrinsani@gmail.com</a><br>or<br>Visit my site <a href="https://azrinsani.github.io" target="blank">https://azrinsani.github.io</a></div>
+    <br><br><br>
   </div>
 </div>
