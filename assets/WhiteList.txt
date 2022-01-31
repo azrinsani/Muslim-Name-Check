@@ -2152,6 +2152,7 @@ ahma
 ahmaad
 ahmaat
 ahmad
+ahmadali
 ahmadane
 ahmadanee
 ahmadani
@@ -25063,6 +25064,7 @@ delaowaar
 delaowar
 delaowvaar
 delaowvar
+delara
 delauvaar
 delauvar
 delauwaar
@@ -32644,6 +32646,9 @@ fardeeyanah
 farden
 fardeyana
 fardeyanah
+fardheen
+fardhi
+fardi
 fardiana
 fardianah
 fardien
@@ -54008,6 +54013,8 @@ jamadagni
 jamadagnie
 jamadagnii
 jamadagny
+jamaddil
+jamadil
 jamah
 jamail
 jamal
@@ -89525,6 +89532,7 @@ muhaowvate
 muhaowvatee
 muhaowvatii
 muhaowvaty
+muharam
 muhare
 muharee
 muharees
@@ -108595,7 +108603,9 @@ rabisha
 rabiul
 rabiya
 rabiyah
+rabiyul
 rabwah
+rabyul
 rachid
 rachmad
 rachmat
@@ -109287,6 +109297,7 @@ ramin
 ramineh
 ramis
 ramiz
+ramizan
 ramjan
 ramla
 ramlah
@@ -113352,6 +113363,8 @@ rohaedah
 rohaidzat
 rohail
 rohaimah
+rohaizah
+rohaizat
 rohana
 rohanah
 rohane
@@ -115387,6 +115400,8 @@ roxelana
 roxelanah
 royanto
 royar
+rozaimi
+rozaimie
 rozal
 rozalina
 rozana
@@ -115596,6 +115611,9 @@ ruhaan
 ruhaedah
 ruhail
 ruhaimah
+ruhaizah
+ruhaizat
+ruhaizatt
 ruhan
 ruhana
 ruhanah
@@ -116010,6 +116028,8 @@ ruxelana
 ruxelanah
 ruyar
 ruzaiman
+ruzaimi
+ruzaimie
 ruzal
 ruzana
 ruzanah
@@ -137958,6 +137978,8 @@ shayeen
 shayer
 shayhan
 shaykh
+shaykhlislam
+shaykhlislamova
 shayqh
 shazad
 shazade
@@ -184650,6 +184672,8 @@ zabarii
 zabary
 zabaur
 zabawr
+zabeeha
+zabeehah
 zabeen
 zabeer
 zabeerah
@@ -184660,6 +184684,8 @@ zaberah
 zabier
 zabierah
 zabih
+zabiha
+zabihah
 zabiir
 zabiirah
 zabir
