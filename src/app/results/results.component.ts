@@ -33,6 +33,10 @@ export class ResultsComponent {
     });
   }
 
+  reset() {
+    this.results=[];
+  }
+
   checkName(nameToCheck:string) {
     this.results = [];
     nameToCheck.replace("-"," ").replace(","," ").replace(";"," ").replace(":"," ").split(" ").forEach(nameRaw=> {
