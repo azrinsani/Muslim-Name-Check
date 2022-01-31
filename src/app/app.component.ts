@@ -1,6 +1,10 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ResultsComponent } from './results/results.component';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,25 +18,45 @@ export class AppComponent implements OnInit {
   @ViewChild('resultsContainer', { read: ViewContainerRef }) resultsContainer!: ViewContainerRef;
   resultsComponent!: ResultsComponent;
 
+  constructor(private route:ActivatedRoute, private router:Router, private location:Location) {}
+
   ngOnInit() {
     console.log('App Started');
+    this.route.queryParams.subscribe(p=> {
+      if (p['name'] != null) {
+        this.nameToCheck = p['name'];
+        this.checkClick();
+      }
+    })
   }
 
-  emitNameToCheck(el: any) {
-    this.nameToCheck=el.value || '';
+  nameToCheckChanged() {
     this.checkButtonDisable = this.nameToCheck == '';
   }
+
 
   async checkClick() {
     if (this.resultsComponent!=null) this.resultsComponent 
     this.searchDisable = true;
     this.showLoading = true;
-    //await delay(1000);
+    this.updateUrl();
     if (this.resultsContainer.length===0) await this.loadResults(); 
     this.resultsComponent.checkName(this.nameToCheck);
     this.showLoading=false;
     this.searchDisable= false;
     this.checkButtonDisable = true;
+  }
+
+  updateUrl() {
+    const queryParams = {
+      name: this.nameToCheck
+    };
+    const urlTree = this.router.createUrlTree([],{
+      relativeTo: this.route,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
+    this.location.go(urlTree.toString());
   }
 
   async loadResults() {

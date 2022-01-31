@@ -26,7 +26,7 @@ export class ResultsComponent {
     console.log('Loaded ' + this.blackList.length + ' white list names');
     var filterListRaw = await lastValueFrom(this.httpClient.get('./assets/FilterList.txt', {responseType: 'text'}));
     var filterList = filterListRaw.split(/\r?\n/);
-    console.log('Loaded ' + filterList.length + ' shia list names');
+    console.log('Loaded ' + filterList.length + ' Shia list names');
     filterList.forEach(e=> {
       var items = e.split('\t');
       if (items[1]=='1') this.shiaRegex.push(items[0]); else this.shiaList.push(items[0]);
@@ -46,7 +46,7 @@ export class ResultsComponent {
 
   checkMuslimOrNot(nameToCheckIn:string):boolean {
 
-    console.log("Checking name : " + nameToCheckIn);
+    //console.log("Checking name : " + nameToCheckIn);
     var nameToCheck = nameToCheckIn;
 
     //Check black list
@@ -56,7 +56,7 @@ export class ResultsComponent {
     }
 
     //Do quick checks
-    if (nameToCheck.match(/^m[aeou]hh?[aeou]?mm?[aeou][dt]/)) {
+    if (nameToCheck.match(/^m[aeou]hh?[aeou]?mm?[aeou][aeou]?[dt]i?/)) {
       console.log(nameToCheck + " matches 'Muhammad' variations. Verdict => Muslim")
       return true;
     }
@@ -76,10 +76,14 @@ export class ResultsComponent {
       console.log(nameToCheck + " matches 'ulla' variations. Verdict => Muslim")
       return true;
     }
+    if (nameToCheck.match(/^s[hy][ae][iy][kq]h?/)) {
+      console.log(nameToCheck + " matches 'Sheikh' variations. Verdict => Muslim")
+      return true;
+    }
 
     //Whitelist Check
     if (this.whiteList.find(e=>e == nameToCheck) != null) {
-      console.log(nameToCheck + " is in White List. Verdict => Muslim")
+      console.log(nameToCheck + " is in white list. Verdict => Muslim")
       return true;
     }
 
@@ -167,7 +171,7 @@ export class ResultsComponent {
 
   
   checkShiaOrNot(nameToCheck:string): boolean {
-    console.log("Checking if '" + nameToCheck + "' is a Shia name");
+    //console.log("Checking if '" + nameToCheck + "' is a Shia name");
     for (let e of this.shiaRegex) {
       if (nameToCheck.match(new RegExp(e, "g"))) {
         console.log("Name matches Regex Test '" + e +"'.  Verdict => Shia name");
