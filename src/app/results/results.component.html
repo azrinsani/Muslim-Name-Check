@@ -1,6 +1,12 @@
-<div class="d-flex flex-column align-items-center">
-    <ng-container *ngFor="let result of results;">
-        <div *ngIf="result.isMuslim" class="text-success d-flex justify-content-center"><div class="material-icons">check</div><div><b>{{ result.name }}</b> is (most likely) a <b>{{ result.isSunni? "Sunnni":"Shia" }} Muslim</b> name</div></div>
-        <div *ngIf="!result.isMuslim" class="text-danger d-flex justify-content-center"><div class="material-icons">close</div><div><b>{{ result.name }}</b> is (most likely) not a Muslim name</div></div>
-    </ng-container>
+<div class="d-flex mt-3 flex-column align-items-center">
+  <ng-container *ngFor="let result of results;">
+    <div *ngIf="result.isMuslim" class="text-success d-flex justify-content-center">
+      <div class="material-icons">check</div>
+      <div><b>{{ result.name }}</b> is (most likely) a <b>{{ result.isSunni? "Sunnni":"Shia" }} Muslim</b> name</div>
+    </div>
+    <div *ngIf="!result.isMuslim" class="text-danger d-flex justify-content-center">
+      <div class="material-icons">close</div>
+      <div><b>{{ result.name }}</b> is (most likely) not a Muslim name</div>
+    </div>
+  </ng-container>
 </div>
